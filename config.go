@@ -11,11 +11,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/jrhoward/confd/backends"
+
 	"github.com/BurntSushi/toml"
 	"github.com/haad/confd/backends"
 	"github.com/haad/confd/log"
 	"github.com/haad/confd/resource/template"
-)
+
 
 type TemplateConfig = template.Config
 type BackendsConfig = backends.Config
@@ -165,8 +167,9 @@ func initConfig() error {
 
 	if config.Watch {
 		unsupportedBackends := map[string]bool{
-			"dynamodb": true,
-			"ssm":      true,
+			"dynamodb":       true,
+			"ssm":            true,
+			"secretsmanager": true,
 		}
 
 		if unsupportedBackends[config.Backend] {

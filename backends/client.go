@@ -4,7 +4,6 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/haad/confd/backends/secretsmanager"
 	"github.com/haad/confd/backends/consul"
 	"github.com/haad/confd/backends/dynamodb"
 	"github.com/haad/confd/backends/env"
@@ -12,6 +11,7 @@ import (
 	"github.com/haad/confd/backends/file"
 	"github.com/haad/confd/backends/rancher"
 	"github.com/haad/confd/backends/redis"
+	"github.com/haad/confd/backends/secretsmanager"
 	"github.com/haad/confd/backends/ssm"
 	"github.com/haad/confd/backends/vault"
 	"github.com/haad/confd/backends/vaultpki"

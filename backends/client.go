@@ -17,7 +17,6 @@ import (
 	"github.com/haad/confd/backends/vaultpki"
 	"github.com/haad/confd/backends/zookeeper"
 	"github.com/haad/confd/log"
-
 )
 
 // The StoreClient interface is implemented by objects that can retrieve

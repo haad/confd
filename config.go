@@ -11,13 +11,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/jrhoward/confd/backends"
-
 	"github.com/BurntSushi/toml"
+
 	"github.com/haad/confd/backends"
 	"github.com/haad/confd/log"
 	"github.com/haad/confd/resource/template"
-
+)
 
 type TemplateConfig = template.Config
 type BackendsConfig = backends.Config

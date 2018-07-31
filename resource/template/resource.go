@@ -43,6 +43,7 @@ type TemplateResourceConfig struct {
 
 // TemplateResource is the representation of a parsed template resource.
 type TemplateResource struct {
+	PrepareCmd    string `toml:"prepare_cmd"`
 	CheckCmd      string `toml:"check_cmd"`
 	Dest          string
 	FileMode      os.FileMode
@@ -331,6 +332,11 @@ func (t *TemplateResource) sync() error {
 	return nil
 }
 
+// perform prepare command before create staged config file.
+func (t *TemplateResource) prepare() error {
+	return runCommand(t.PrepareCmd)
+}
+
 // check executes the check command to validate the staged config file. The
 // command is modified so that any references to src template are substituted
 // with a string representing the full path of the staged file. This allows the
@@ -385,6 +391,9 @@ func runCommand(cmd string) error {
 // things up.
 // It returns an error if any.
 func (t *TemplateResource) process() error {
+	if err := t.prepare(); err != nil {
+		return err
+	}
 	if err := t.setFileMode(); err != nil {
 		return err
 	}

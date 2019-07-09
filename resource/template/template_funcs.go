@@ -38,6 +38,7 @@ func newFuncMap() map[string]interface{} {
 		"sortByLength":   SortByLength,
 		"sortKVByLength": SortKVByLength,
 		"seq":            Seq,
+		"hostname": 	  GetHostname,
 		"printf":         fmt.Sprintf,
 		"unixTS":         func() string { return strconv.FormatInt(time.Now().Unix(), 10) },
 		"dateRFC3339":    func() string { return time.Now().Format(time.RFC3339) },
@@ -129,6 +130,11 @@ func Getenv(key string, v ...string) string {
 		return defaultValue
 	}
 	return value
+}
+
+func GetHostname() (string, error) {
+	value, error := os.Hostname()
+	return value, error
 }
 
 // CreateMap creates a key-value map of string -> interface{}

@@ -97,7 +97,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
 	addFuncs(tr.funcMap, tr.store.FuncMap)
-    addFuncs(tr.funcMap, sprig.TxtFuncMap())
+    addFuncs(tr.funcMap, sprig.TxtFuncMap()) // Add sprig template functions to confd templates
 
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix
@@ -143,7 +143,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 			}
 		} else {
 			tr.Gid = os.Getegid()
-		}	
+		}
 	}
 
 	if tr.Lang == "" {

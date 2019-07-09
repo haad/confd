@@ -451,6 +451,14 @@ Generates integers from 1 to the given integer.
 {{loop1to 5}}
 ```
 
+### hostname
+
+Wrapper for [os.Hostname](https://golang.org/pkg/os/#Hostname). Retrieves the value of the host name reported by the kernel.
+
+```
+hostname: {{ hostname }}
+```
+
 ## Example Usage
 
 ```sh

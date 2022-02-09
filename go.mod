@@ -3,7 +3,7 @@ module github.com/haad/confd
 go 1.17
 
 require (
-	github.com/BurntSushi/toml v0.3.1
+	github.com/BurntSushi/toml v1.0.0
 	github.com/aws/aws-sdk-go v1.13.41
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/garyburd/redigo v1.6.0

@@ -11,7 +11,7 @@ require (
 	github.com/hashicorp/vault/api v1.3.1
 	github.com/kelseyhightower/memkv v0.1.1
 	github.com/samuel/go-zookeeper v0.0.0-20180130194729-c4fab1ac1bec
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.8.1
 	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77
 	go.etcd.io/etcd/client/v3 v3.5.2
 	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
@@ -51,7 +51,6 @@ require (
 	github.com/hashicorp/vault/sdk v0.3.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
 	github.com/jmespath/go-jmespath v0.0.0-20160202185014-0b12d6b521d8 // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/mitchellh/copystructure v1.0.0 // indirect

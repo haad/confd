@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/BurntSushi/toml v1.0.0
 	github.com/aws/aws-sdk-go v1.42.52
+	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/garyburd/redigo v1.6.3
 	github.com/hashicorp/consul v1.0.7
@@ -16,6 +17,8 @@ require (
 	go.etcd.io/etcd/client/v3 v3.5.2
 	golang.org/x/net v0.0.0-20211216030914-fe4d6282115f
 	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+	sigs.k8s.io/yaml v1.2.0
 )
 
 require (

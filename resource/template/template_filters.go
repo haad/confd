@@ -36,6 +36,14 @@ func init() {
 	pongo2.RegisterFilter("base64", filterBase64)
 	pongo2.RegisterFilter("index", filterIndex)
 	pongo2.RegisterFilter("mapValue", filterMapValue)
+	pongo2.RegisterFilter("trim", filterTrimValue)
+}
+
+func filterTrimValue(in *pongo2.Value, param *pongo2.Value) (*pongo2.Value, *pongo2.Error) {
+	if !in.IsString() {
+		return in, nil
+	}
+	return pongo2.AsValue(strings.TrimSpace(in.String())), nil
 }
 
 func parseParamMap(in string) (url.Values, error) {

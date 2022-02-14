@@ -54,6 +54,7 @@ func newFuncMap() map[string]interface{} {
 		"printf":         fmt.Sprintf,
 		"unixTS":         func() string { return strconv.FormatInt(time.Now().Unix(), 10) },
 		"dateRFC3339":    func() string { return time.Now().Format(time.RFC3339) },
+		"trim":           strings.TrimSpace,
 	}
 	return m
 }

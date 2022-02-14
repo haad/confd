@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"path"
 	"sort"
 	"strconv"
 	"strings"
@@ -19,20 +18,14 @@ import (
 
 func newFuncMap() map[string]interface{} {
 	m := map[string]interface{}{
-		"base":           path.Base,
 		"split":          strings.Split,
 		"json":           UnmarshalJsonObject,
 		"jsonArray":      UnmarshalJsonArray,
-		"dir":            path.Dir,
 		"map":            CreateMap,
 		"getenv":         Getenv,
-		"join":           strings.Join,
 		"datetime":       time.Now,
 		"toUpper":        strings.ToUpper,
 		"toLower":        strings.ToLower,
-		"contains":       strings.Contains,
-		"replace":        strings.Replace,
-		"trimSuffix":     strings.TrimSuffix,
 		"lookupIP":       LookupIP,
 		"lookupIPV4":     LookupIPV4,
 		"lookupIPV6":     LookupIPV6,
@@ -44,17 +37,10 @@ func newFuncMap() map[string]interface{} {
 		"reverse":        Reverse,
 		"sortByLength":   SortByLength,
 		"sortKVByLength": SortKVByLength,
-		"add":            func(a, b int) int { return a + b },
-		"sub":            func(a, b int) int { return a - b },
-		"div":            func(a, b int) int { return a / b },
-		"mod":            func(a, b int) int { return a % b },
-		"mul":            func(a, b int) int { return a * b },
 		"seq":            Seq,
-		"atoi":           strconv.Atoi,
 		"printf":         fmt.Sprintf,
 		"unixTS":         func() string { return strconv.FormatInt(time.Now().Unix(), 10) },
 		"dateRFC3339":    func() string { return time.Now().Format(time.RFC3339) },
-		"trim":           strings.TrimSpace,
 	}
 	return m
 }

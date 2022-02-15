@@ -21,7 +21,7 @@ import (
 	util "github.com/haad/confd/util"
 	"github.com/kelseyhightower/memkv"
 	"github.com/xordataexchange/crypt/encoding/secconf"
-    "github.com/Masterminds/sprig/v3"
+	"github.com/Masterminds/sprig/v3"
 )
 
 type Config struct {
@@ -93,7 +93,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
 	addFuncs(tr.funcMap, tr.store.FuncMap)
-    addFuncs(tr.funcMap, sprig.TxtFuncMap())
+	addFuncs(tr.funcMap, sprig.TxtFuncMap())
 
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix

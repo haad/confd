@@ -15,11 +15,13 @@ import (
 	"text/template"
 
 	"github.com/BurntSushi/toml"
+	"github.com/flosch/pongo2"
 	"github.com/haad/confd/backends"
 	"github.com/haad/confd/log"
 	util "github.com/haad/confd/util"
 	"github.com/kelseyhightower/memkv"
 	"github.com/xordataexchange/crypt/encoding/secconf"
+    "github.com/Masterminds/sprig/v3"
 )
 
 type Config struct {
@@ -50,7 +52,8 @@ type TemplateResource struct {
 	Prefix        string
 	ReloadCmd     string `toml:"reload_cmd"`
 	Src           string
-	Mkdirs        bool `toml:"make_directories"`
+	Mkdirs        bool   `toml:"make_directories"`
+	Lang          string `toml:"lang"`
 	StageFile     *os.File
 	Uid           int
 	funcMap       map[string]interface{}
@@ -64,6 +67,7 @@ type TemplateResource struct {
 }
 
 var ErrEmptySrc = errors.New("empty src template")
+var ErrBadLang = errors.New("unsupported template language, use golang or pongo2")
 
 // NewTemplateResource creates a TemplateResource.
 func NewTemplateResource(path string, config Config) (*TemplateResource, error) {
@@ -89,6 +93,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
 	addFuncs(tr.funcMap, tr.store.FuncMap)
+    addFuncs(tr.funcMap, sprig.TxtFuncMap())
 
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix
@@ -113,6 +118,14 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 
 	if tr.Gid == -1 {
 		tr.Gid = os.Getegid()
+	}
+
+	if tr.Lang == "" {
+		tr.Lang = "golang"
+	}
+
+	if tr.Lang != "golang" && tr.Lang != "pongo2" {
+		return nil, ErrBadLang
 	}
 
 	tr.Src = filepath.Join(config.TemplateDir, tr.Src)
@@ -205,11 +218,6 @@ func (t *TemplateResource) createStageFile() error {
 
 	log.Debug("Compiling source template " + t.Src)
 
-	tmpl, err := template.New(filepath.Base(t.Src)).Funcs(t.funcMap).ParseFiles(t.Src)
-	if err != nil {
-		return fmt.Errorf("Unable to process template %s, %s", t.Src, err)
-	}
-
 	// create TempFile in Dest directory to avoid cross-filesystem issues
 	if t.Mkdirs {
 		if err := os.MkdirAll(filepath.Dir(t.Dest), 0755); err != nil {
@@ -221,10 +229,34 @@ func (t *TemplateResource) createStageFile() error {
 		return err
 	}
 
-	if err = tmpl.Execute(temp, nil); err != nil {
-		temp.Close()
-		os.Remove(temp.Name())
-		return err
+	switch ls := t.Lang; ls {
+	case "pongo2":
+		pongo2.SetAutoescape(false)
+		set := pongo2.NewSet("local", &pongo2.LocalFilesystemLoader{})
+		set.Options = &pongo2.Options{
+			TrimBlocks:   true,
+			LStripBlocks: true,
+		}
+		tmplPongo, err := set.FromFile(t.Src)
+		if err != nil {
+			return fmt.Errorf("template from file failed", err)
+		}
+		if err = tmplPongo.ExecuteWriter(t.funcMap, temp); err != nil {
+			temp.Close()
+			os.Remove(temp.Name())
+			return fmt.Errorf("template execution failed", err)
+		}
+	case "golang":
+		tmpl, err := template.New(filepath.Base(t.Src)).Funcs(t.funcMap).ParseFiles(t.Src)
+		if err != nil {
+			return fmt.Errorf("Unable to process template %s, %s", t.Src, err)
+		}
+
+		if err = tmpl.Execute(temp, nil); err != nil {
+			temp.Close()
+			os.Remove(temp.Name())
+			return err
+		}
 	}
 	defer temp.Close()
 

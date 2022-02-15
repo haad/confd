@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"path"
 	"sort"
 	"strconv"
 	"strings"
@@ -18,39 +17,31 @@ import (
 )
 
 func newFuncMap() map[string]interface{} {
-	m := make(map[string]interface{})
-	m["base"] = path.Base
-	m["split"] = strings.Split
-	m["json"] = UnmarshalJsonObject
-	m["jsonArray"] = UnmarshalJsonArray
-	m["dir"] = path.Dir
-	m["map"] = CreateMap
-	m["getenv"] = Getenv
-	m["join"] = strings.Join
-	m["datetime"] = time.Now
-	m["toUpper"] = strings.ToUpper
-	m["toLower"] = strings.ToLower
-	m["contains"] = strings.Contains
-	m["replace"] = strings.Replace
-	m["trimSuffix"] = strings.TrimSuffix
-	m["lookupIP"] = LookupIP
-	m["lookupIPV4"] = LookupIPV4
-	m["lookupIPV6"] = LookupIPV6
-	m["lookupSRV"] = LookupSRV
-	m["fileExists"] = util.IsFileExist
-	m["base64Encode"] = Base64Encode
-	m["base64Decode"] = Base64Decode
-	m["parseBool"] = strconv.ParseBool
-	m["reverse"] = Reverse
-	m["sortByLength"] = SortByLength
-	m["sortKVByLength"] = SortKVByLength
-	m["add"] = func(a, b int) int { return a + b }
-	m["sub"] = func(a, b int) int { return a - b }
-	m["div"] = func(a, b int) int { return a / b }
-	m["mod"] = func(a, b int) int { return a % b }
-	m["mul"] = func(a, b int) int { return a * b }
-	m["seq"] = Seq
-	m["atoi"] = strconv.Atoi
+	m := map[string]interface{}{
+		"split":          strings.Split,
+		"json":           UnmarshalJsonObject,
+		"jsonArray":      UnmarshalJsonArray,
+		"map":            CreateMap,
+		"getenv":         Getenv,
+		"datetime":       time.Now,
+		"toUpper":        strings.ToUpper,
+		"toLower":        strings.ToLower,
+		"lookupIP":       LookupIP,
+		"lookupIPV4":     LookupIPV4,
+		"lookupIPV6":     LookupIPV6,
+		"lookupSRV":      LookupSRV,
+		"fileExists":     util.IsFileExist,
+		"base64Encode":   Base64Encode,
+		"base64Decode":   Base64Decode,
+		"parseBool":      strconv.ParseBool,
+		"reverse":        Reverse,
+		"sortByLength":   SortByLength,
+		"sortKVByLength": SortKVByLength,
+		"seq":            Seq,
+		"printf":         fmt.Sprintf,
+		"unixTS":         func() string { return strconv.FormatInt(time.Now().Unix(), 10) },
+		"dateRFC3339":    func() string { return time.Now().Format(time.RFC3339) },
+	}
 	return m
 }
 

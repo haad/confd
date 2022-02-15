@@ -22,7 +22,7 @@ import (
 	util "github.com/haad/confd/util"
 	"github.com/kelseyhightower/memkv"
 	"github.com/xordataexchange/crypt/encoding/secconf"
-    "github.com/Masterminds/sprig/v3"
+	"github.com/Masterminds/sprig/v3"
 )
 
 type Config struct {

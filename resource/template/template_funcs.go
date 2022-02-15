@@ -19,7 +19,6 @@ import (
 func newFuncMap() map[string]interface{} {
 
 	m := map[string]interface{}{
-		"split":          strings.Split,
 		"json":           UnmarshalJsonObject,
 		"jsonArray":      UnmarshalJsonArray,
 		"map":            CreateMap,

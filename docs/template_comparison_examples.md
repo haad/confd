@@ -1,7 +1,7 @@
 
-# Templating text golan / pongo2
+# Templating text golang / pongo2
 
-There is two option for templating, you can choose from golang text/template extended with sprig ( you know it from helm) and pongo2 which is kind of dialect of jinja2, you can know it from django templates. Both of share some basic functions to fetch data from backands and their differ in manipulation and filters functions.
+There is two option for templating, you can choose from golang text/template extended with sprig ( you know it from helm) or pongo2, which is kind of jinja2 dialect, you can know it from django templates. Both options share basic functions for data fetching.
 
 ## Shared data feching functions
 
@@ -13,13 +13,14 @@ There is two option for templating, you can choose from golang text/template ext
 		"getv" - gets the value associated with key.
 		"getvs" - return list of all values matching pattern
 
-see examples for usage
+See examples for usage
 
 ## Golang specific functions
 
-check [Sprig Docs](http://masterminds.github.io/sprig/)
+Take a look at various sprig template filters/functions [Sprig Docs](http://masterminds.github.io/sprig/) or use same functions as you are used to from helm.
 
-backward compatible and depricated confd functions
+List of backward compatible and mostly depricated confd functions. As we prefere sprig, functions which has equivalent in sprig will print deprication warning and then be removed.
+
         "json"
         "jsonArray"
         "map"
@@ -43,11 +44,64 @@ backward compatible and depricated confd functions
         "unixTS"
         "dateRFC3339"
 
-Beaware there was some naming conflicts between confd original function and sprig, for example split function is now inherited from sprig. Look at [sprig docs](http://masterminds.github.io/sprig/string_slice.html#splitlist-and-split), so split needs to be replaced with splitList sprig function in template to achive old behavior.
+Beaware, there was some naming conflicts between confd original functions and sprig. For example split function is now provided by sprig. Look at [sprig docs](http://masterminds.github.io/sprig/string_slice.html#splitlist-and-split), so `split` needs to be replaced with `splitList` sprig function to achive compatible behavior. Always test/check results before upgrading production environment.
 
 
+## Pongo2 specific functions
 
-https://github.com/flosch/pongo2/blob/master/docs/filters.md
+See [django build in filters](https://github.com/flosch/pongo2/blob/master/docs/filters.md)
+
+          escape
+          safe
+          escapejs
+          add
+          addslashes
+          capfirst
+          center
+          cut
+          date
+          default
+          default_if_none
+          divisibleby
+          first
+          floatformat
+          get_digit
+          iriencode
+          join
+          last
+          length
+          length_is
+          linebreaks
+          linebreaksbr
+          linenumbers
+          ljust
+          lower
+          make_list
+          phone2numeric
+          pluralize
+          random
+          removetags
+          rjust
+          slice
+          stringformat
+          striptags
+          time
+          title
+          truncatechars
+          truncatechars_html
+          truncatewords
+          truncatewords_html
+          upper
+          urlencode
+          urlize
+          urlizetrunc
+          wordcount
+          wordwrap
+          yesno
+
+# Usage and examples
+
+
 
 pongo2 with `gets` and pattern
 ```jinja

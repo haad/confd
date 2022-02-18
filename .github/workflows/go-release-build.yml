@@ -1,9 +1,13 @@
 name: Generate release-artifacts
+
 on:
-  release:
-    types:
-        - created
-        - published
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest

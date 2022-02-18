@@ -1,6 +1,8 @@
 # confd
 
-[![Build Status](https://travis-ci.org/kelseyhightower/confd.svg?branch=master)](https://travis-ci.org/kelseyhightower/confd)
+[![Integration Tests](https://github.com/haad/confd/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/haad/confd/actions/workflows/integration-tests.yml)
+[![CodeQL](https://github.com/haad/confd/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/haad/confd/actions/workflows/codeql-analysis.yml)
+[![Super-Linter](https://github.com/haad/confd/actions/workflows/superlinter.yml/badge.svg)](https://github.com/haad/confd/actions/workflows/superlinter.yml)
 
 `confd` is a lightweight configuration management tool focused on:
 

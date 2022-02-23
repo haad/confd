@@ -34,15 +34,15 @@ dockers:
     build_flag_templates:
       - --platform=linux/arm64/v8
 
-docker_manifests:
-  - name_template: ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}
-    image_templates:
-      - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-amd64
-      - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-arm64v8
-  - name_template: ghcr.io/haad/{{ .ProjectName }}:latest
-    image_templates:
-      - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-amd64
-      - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-arm64v8
+# docker_manifests:
+#   - name_template: ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}
+#     image_templates:
+#       - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-amd64
+#       - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-arm64v8
+#   - name_template: ghcr.io/haad/{{ .ProjectName }}:latest
+#     image_templates:
+#       - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-amd64
+#       - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-arm64v8
 
 archives:
   - replacements:

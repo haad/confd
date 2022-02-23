@@ -33,6 +33,7 @@ dockers:
       - ghcr.io/haad/{{ .ProjectName }}:{{ .Tag }}-arm64v8
     build_flag_templates:
       - --platform=linux/arm64/v8
+
 docker_manifests:
   - name_template: ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}
     image_templates:

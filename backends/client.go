@@ -47,7 +47,7 @@ func New(config Config) (StoreClient, error) {
 			config.BasicAuth,
 			config.Username,
 			config.Password,
-			config.AuthToken
+			config.AuthToken,
 		)
 	case "etcd":
 		return etcdv3.NewEtcdClient(backendNodes, config.ClientCert, config.ClientKey, config.ClientCaKeys, config.BasicAuth, config.Username, config.Password)

@@ -363,6 +363,18 @@ Wrapper for [net.LookupIP](https://golang.org/pkg/net/#LookupIP) function. The w
 {{end}}
 ```
 
+### LookupIfaceIPV4/LookupIfaceIPV6
+Lookup Interface with particular IP(ipv4/ipv6).
+
+```go
+interface={{ LookupIfaceIPV4 "127.0.0.1" }}
+```
+
+Output
+```text
+interface=lo
+```
+
 ### atoi
 
 Alias for the [strconv.Atoi](https://golang.org/pkg/strconv/#Atoi) function.

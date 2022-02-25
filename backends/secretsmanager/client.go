@@ -14,7 +14,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
-	"github.com/kelseyhightower/confd/log"
+
+	"github.com/haad/confd/log"
 )
 
 type Client struct {

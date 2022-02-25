@@ -16,7 +16,7 @@ export ZOOKEEPER_VERSION="3.6.3"
 export RANCHER_VERSION="0.6.0"
 
 #export INTEGRATION_TESTS=("file" "redis" "dynamodb" "zookeeper" "env" "consul" "etcd" ) # "vault")
-export INTEGRATION_TESTS=("vault" "consul" "etcd" "redis" "env" "file" "dynamodb" "zookeeper")
+export INTEGRATION_TESTS=("vault" "consul" "etcd" "redis" "env" "file" "dynamodb" "zookeeper" "secretsmanager")
 
 apt -q update
 apt install -y curl wget unzip python3-pip make git jq sudo psmisc netcat

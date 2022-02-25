@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
+
 	"github.com/haad/confd/backends"
 	"github.com/haad/confd/log"
 	"github.com/haad/confd/resource/template"
@@ -165,8 +166,9 @@ func initConfig() error {
 
 	if config.Watch {
 		unsupportedBackends := map[string]bool{
-			"dynamodb": true,
-			"ssm":      true,
+			"dynamodb":       true,
+			"ssm":            true,
+			"secretsmanager": true,
 		}
 
 		if unsupportedBackends[config.Backend] {

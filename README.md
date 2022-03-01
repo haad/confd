@@ -1,6 +1,8 @@
 # confd
 
-[![Build Status](https://travis-ci.org/kelseyhightower/confd.svg?branch=master)](https://travis-ci.org/kelseyhightower/confd)
+[![Integration Tests](https://github.com/haad/confd/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/haad/confd/actions/workflows/integration-tests.yml)
+[![CodeQL](https://github.com/haad/confd/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/haad/confd/actions/workflows/codeql-analysis.yml)
+[![Super-Linter](https://github.com/haad/confd/actions/workflows/superlinter.yml/badge.svg)](https://github.com/haad/confd/actions/workflows/superlinter.yml)
 
 `confd` is a lightweight configuration management tool focused on:
 
@@ -19,7 +21,7 @@
 
 Go 1.10 is required to build confd, which uses the new vendor directory.
 
-```
+```sh
 $ mkdir -p $GOPATH/src/github.com/haad
 $ git clone https://github.com/haad/confd.git $GOPATH/src/github.com/haad/confd
 $ cd $GOPATH/src/github.com/haad/confd
@@ -28,9 +30,15 @@ $ make
 
 You should now have confd in your `bin/` directory:
 
-```
+```sh
 $ ls bin/
 confd
+```
+
+### Running integration tests
+
+```sh
+docker run -it --rm -v $(pwd):/go/src/github.com/haad/confd golang:1.17.6 /go/src/github.com/haad/confd/integration/run.sh
 ```
 
 ## Getting Started

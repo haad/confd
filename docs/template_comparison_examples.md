@@ -1,7 +1,7 @@
-
 # Templating text golang / pongo2
 
-There is two option for templating, you can choose from golang text/template extended with sprig ( you know it from helm) or pongo2, which is kind of jinja2 dialect, you can know it from django templates. Both options share basic functions for data fetching.
+There are two options for templating, you can choose from golang text/template extended with sprig ( you know it from helm) or pongo2, which is kind of jinja2 dialect, you can know it from django templates. Both options share basic functions for data fetching.
+
 
 ## Shared data feching functions
 
@@ -100,8 +100,6 @@ See [django build in filters](https://github.com/flosch/pongo2/blob/master/docs/
           yesno
 
 # Usage and examples
-
-
 
 pongo2 with `gets` and pattern
 ```jinja

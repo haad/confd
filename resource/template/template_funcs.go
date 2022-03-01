@@ -17,6 +17,7 @@ import (
 )
 
 func newFuncMap() map[string]interface{} {
+
 	m := map[string]interface{}{
 		"json":           UnmarshalJsonObject,
 		"jsonArray":      UnmarshalJsonArray,
@@ -37,10 +38,14 @@ func newFuncMap() map[string]interface{} {
 		"sortByLength":   SortByLength,
 		"sortKVByLength": SortKVByLength,
 		"seq":            Seq,
+		"hostname": 	  GetHostname,
+		"lookupIfaceIPV4": LookupIfaceIPV4,
+		"lookupIfaceIPV6": LookupIfaceIPV6,
 		"printf":         fmt.Sprintf,
 		"unixTS":         func() string { return strconv.FormatInt(time.Now().Unix(), 10) },
 		"dateRFC3339":    func() string { return time.Now().Format(time.RFC3339) },
 	}
+
 	return m
 }
 
@@ -130,6 +135,11 @@ func Getenv(key string, v ...string) string {
 	return value
 }
 
+func GetHostname() (string, error) {
+	value, error := os.Hostname()
+	return value, error
+}
+
 // CreateMap creates a key-value map of string -> interface{}
 // The i'th is the key and the i+1 is the value
 func CreateMap(values ...interface{}) (map[string]interface{}, error) {
@@ -192,6 +202,52 @@ func LookupIPV4(data string) []string {
 		}
 	}
 	return addresses
+}
+
+func LookupIfaceIPV4(data string) (addr string) {
+	var (
+		ief      *net.Interface
+		addrs    []net.Addr
+		ipv4Addr net.IP
+	)
+	ief, err := net.InterfaceByName(data)
+	if err != nil {
+		return
+	}
+	addrs, err = ief.Addrs()
+	if err != nil { // get addresses
+		return
+	}
+	for _, addr := range addrs { // get ipv4 address
+		ipv4Addr = addr.(*net.IPNet).IP.To4()
+		if ipv4Addr != nil {
+			break
+		}
+	}
+	return ipv4Addr.String()
+}
+
+func LookupIfaceIPV6(data string) (addr string) {
+	var (
+		ief      *net.Interface
+		addrs    []net.Addr
+		ipv6Addr net.IP
+	)
+	ief, err := net.InterfaceByName(data)
+	if err != nil {
+		return
+	}
+	addrs, err = ief.Addrs()
+	if err != nil { // get addresses
+		return
+	}
+	for _, addr := range addrs { // get ipv6 address
+		ipv6Addr = addr.(*net.IPNet).IP.To16()
+		if ipv6Addr != nil {
+			break
+		}
+	}
+	return ipv6Addr.String()
 }
 
 type sortSRV []*net.SRV

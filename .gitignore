@@ -26,3 +26,4 @@ bin/
 .vscode/
 
 dump.rdb
+dist/

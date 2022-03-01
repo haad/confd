@@ -8,12 +8,12 @@ import (
 )
 
 // Client provides a wrapper around the consulkv client
-type ConsulClient struct {
+type Client struct {
 	client *api.KV
 }
 
-// NewConsulClient returns a new client to Consul for the given address
-func New(nodes []string, scheme, cert, key, caCert string, basicAuth bool, username string, password string) (*ConsulClient, error) {
+// sulClient returns a new client to Consul for the given address
+func New(nodes []string, scheme, cert, key, caCert string, basicAuth bool, username string, password string, authToken string) (*Client, error) {
 	conf := api.DefaultConfig()
 
 	conf.Scheme = scheme
@@ -33,23 +33,28 @@ func New(nodes []string, scheme, cert, key, caCert string, basicAuth bool, usern
 		conf.TLSConfig.CertFile = cert
 		conf.TLSConfig.KeyFile = key
 	}
+
 	if caCert != "" {
 		conf.TLSConfig.CAFile = caCert
+	}
+
+	if authToken != "" {
+		conf.Token = authToken
 	}
 
 	client, err := api.NewClient(conf)
 	if err != nil {
 		return nil, err
 	}
-	return &ConsulClient{client.KV()}, nil
+	return &Client{client.KV()}, nil
 }
 
 // GetValues queries Consul for keys
-func (c *ConsulClient) GetValues(keys []string) (map[string]string, error) {
+func (c *Client) GetValues(keys []string) (map[string]string, error) {
 	vars := make(map[string]string)
 	for _, key := range keys {
-		key := strings.TrimPrefix(key, "/")
-		pairs, _, err := c.client.List(key, nil)
+		tkey := strings.TrimPrefix(key, "/")
+		pairs, _, err := c.client.List(tkey, nil)
 		if err != nil {
 			return vars, err
 		}
@@ -65,7 +70,7 @@ type watchResponse struct {
 	err       error
 }
 
-func (c *ConsulClient) WatchPrefix(prefix string, keys []string, waitIndex uint64, stopChan chan bool) (uint64, error) {
+func (c *Client) WatchPrefix(prefix string, keys []string, waitIndex uint64, stopChan chan bool) (uint64, error) {
 	respChan := make(chan watchResponse)
 	go func() {
 		opts := api.QueryOptions{

@@ -1,6 +1,9 @@
 #!/bin/bash
 
 export HOSTNAME="localhost"
+export PORT=2181
+
+set -e
 
 # feed zookeeper
 export ZK_PATH="`dirname \"$0\"`"

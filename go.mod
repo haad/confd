@@ -4,27 +4,27 @@ go 1.17
 
 require (
 	github.com/BurntSushi/toml v1.0.0
-	github.com/aws/aws-sdk-go v1.42.52
+	github.com/Masterminds/sprig/v3 v3.2.2
+	github.com/aws/aws-sdk-go v1.43.2
 	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/garyburd/redigo v1.6.3
+	github.com/go-zookeeper/zk v1.0.2
 	github.com/hashicorp/consul v1.0.7
 	github.com/hashicorp/vault/api v1.3.1
 	github.com/kelseyhightower/memkv v0.1.1
-	github.com/samuel/go-zookeeper v0.0.0-20180130194729-c4fab1ac1bec
 	github.com/sirupsen/logrus v1.8.1
 	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77
 	go.etcd.io/etcd/client/v3 v3.5.2
 	golang.org/x/net v0.0.0-20211216030914-fe4d6282115f
 	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	sigs.k8s.io/yaml v1.2.0
+	sigs.k8s.io/yaml v1.3.0
 )
 
 require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.1.1 // indirect
-	github.com/Masterminds/sprig/v3 v3.2.2 // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/cenkalti/backoff/v3 v3.0.0 // indirect

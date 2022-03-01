@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"os/user"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -43,12 +44,15 @@ type TemplateResourceConfig struct {
 
 // TemplateResource is the representation of a parsed template resource.
 type TemplateResource struct {
+	PrepareCmd    string `toml:"prepare_cmd"`
 	CheckCmd      string `toml:"check_cmd"`
 	Dest          string
 	FileMode      os.FileMode
 	Gid           int
+	Group 		  string
 	Keys          []string
 	Mode          string
+	Owner 		  string
 	Prefix        string
 	ReloadCmd     string `toml:"reload_cmd"`
 	Src           string
@@ -95,6 +99,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	addFuncs(tr.funcMap, tr.store.FuncMap)
 	addFuncs(tr.funcMap, sprig.TxtFuncMap())
 
+
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix
 	}
@@ -113,11 +118,33 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	}
 
 	if tr.Uid == -1 {
-		tr.Uid = os.Geteuid()
+		if tr.Owner != "" {
+			u, err := user.Lookup(tr.Owner)
+			if err != nil {
+				return nil, fmt.Errorf("Cannot find owner's UID - %s", err.Error())
+			}
+			tr.Uid, err = strconv.Atoi(u.Uid)
+			if err != nil {
+				return nil, fmt.Errorf("Cannot convert string to int - %s", err.Error())
+			}
+		} else {
+			tr.Uid = os.Geteuid()
+		}
 	}
 
 	if tr.Gid == -1 {
-		tr.Gid = os.Getegid()
+		if tr.Group != "" {
+			g, err := user.LookupGroup(tr.Group)
+			if err != nil {
+				return nil, fmt.Errorf("Cannot find group's GID - %s", err.Error())
+			}
+			tr.Gid, err = strconv.Atoi(g.Gid)
+			if err != nil {
+				return nil, fmt.Errorf("Cannot convert string to int - %s", err.Error())
+			}
+		} else {
+			tr.Gid = os.Getegid()
+		}
 	}
 
 	if tr.Lang == "" {
@@ -331,6 +358,11 @@ func (t *TemplateResource) sync() error {
 	return nil
 }
 
+// perform prepare command before create staged config file.
+func (t *TemplateResource) prepare() error {
+	return runCommand(t.PrepareCmd)
+}
+
 // check executes the check command to validate the staged config file. The
 // command is modified so that any references to src template are substituted
 // with a string representing the full path of the staged file. This allows the
@@ -385,6 +417,9 @@ func runCommand(cmd string) error {
 // things up.
 // It returns an error if any.
 func (t *TemplateResource) process() error {
+	if err := t.prepare(); err != nil {
+		return err
+	}
 	if err := t.setFileMode(); err != nil {
 		return err
 	}

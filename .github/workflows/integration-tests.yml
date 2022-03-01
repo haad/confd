@@ -62,6 +62,15 @@ jobs:
           integration/dynamodb/test.sh
           integration/expect/check.sh
 
+      # - name: Install SecretsManager
+      #   run: |
+      #     integration/secretsmanager/install.sh
+
+      # - name: Test SecretsManager
+      #   run: |
+      #     integration/secretsmanager/test.sh
+      #     integration/expect/check.sh
+
       - name: Test Env
         run: |
           integration/env/test.sh

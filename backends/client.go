@@ -11,6 +11,7 @@ import (
 	"github.com/haad/confd/backends/file"
 	"github.com/haad/confd/backends/rancher"
 	"github.com/haad/confd/backends/redis"
+	"github.com/haad/confd/backends/secretsmanager"
 	"github.com/haad/confd/backends/ssm"
 	"github.com/haad/confd/backends/vault"
 	"github.com/haad/confd/backends/vaultpki"
@@ -47,6 +48,7 @@ func New(config Config) (StoreClient, error) {
 			config.BasicAuth,
 			config.Username,
 			config.Password,
+			config.AuthToken,
 		)
 	case "etcd":
 		return etcdv3.NewEtcdClient(backendNodes, config.ClientCert, config.ClientKey, config.ClientCaKeys, config.BasicAuth, config.Username, config.Password)
@@ -96,6 +98,8 @@ func New(config Config) (StoreClient, error) {
 		return dynamodb.NewDynamoDBClient(table)
 	case "ssm":
 		return ssm.New()
+	case "secretsmanager":
+		return secretsmanager.New()
 	}
 	return nil, errors.New("Invalid backend")
 }

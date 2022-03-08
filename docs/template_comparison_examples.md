@@ -1,6 +1,7 @@
-# Templating text golan / pongo2
+# Templating text golang / pongo2
 
-There are two option for templating, you can choose from golang text/template extended with sprig ( you know it from helm) and pongo2 which is kind of dialect of jinja2, you can know it from django templates. Both of share some basic functions to fetch data from backands and their differ in manipulation and filters functions.
+There are two options for templating, you can choose from golang text/template extended with sprig ( you know it from helm) or pongo2, which is kind of jinja2 dialect, you can know it from django templates. Both options share basic functions for data fetching.
+
 
 ## Shared data feching functions
 

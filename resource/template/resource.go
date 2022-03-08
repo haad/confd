@@ -97,7 +97,8 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
 	addFuncs(tr.funcMap, tr.store.FuncMap)
-    addFuncs(tr.funcMap, sprig.TxtFuncMap()) // Add sprig template functions to confd templates
+	addFuncs(tr.funcMap, sprig.TxtFuncMap())
+
 
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix

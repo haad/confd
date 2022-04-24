@@ -7,7 +7,7 @@ require (
 	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/aws/aws-sdk-go v1.43.26
 	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
-	github.com/fsnotify/fsnotify v1.5.1
+	github.com/fsnotify/fsnotify v1.5.3
 	github.com/garyburd/redigo v1.6.3
 	github.com/go-zookeeper/zk v1.0.2
 	github.com/hashicorp/consul v1.0.7

@@ -135,6 +135,7 @@ keys = [
     "/myapp/database/url",
     "/myapp/database/user",
 ]
+make_directories = true # optional, whether to create dest directory if not exist
 ```
 
 ### Create the source template
@@ -286,6 +287,7 @@ keys = [
 ]
 check_cmd = "/usr/sbin/nginx -t -c {{.src}}"
 reload_cmd = "/usr/sbin/service nginx reload"
+make_directories = true # optional, whether to create dest directory if not exist
 ```
 
 /etc/confd/conf.d/yourapp-nginx.toml
@@ -303,6 +305,7 @@ keys = [
 ]
 check_cmd = "/usr/sbin/nginx -t -c {{.src}}"
 reload_cmd = "/usr/sbin/service nginx reload"
+make_directories = true # optional, whether to create dest directory if not exist
 ```
 
 ### Create the source template

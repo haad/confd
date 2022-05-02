@@ -39,4 +39,5 @@ keys = [
 ]
 check_cmd = "/usr/sbin/nginx -t -c {{.src}}"
 reload_cmd = "/usr/sbin/service nginx restart"
+make_directories = true # optional, wheater to create dest directory, will create /etc/nginx dir
 ```

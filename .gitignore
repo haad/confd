@@ -27,3 +27,5 @@ bin/
 
 dump.rdb
 dist/
+
+vendor/

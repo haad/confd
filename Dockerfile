@@ -1,5 +1,5 @@
 FROM scratch
 
-COPY ./bin/confd /
+COPY confd /
 
 ENTRYPOINT ["/confd"]

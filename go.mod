@@ -10,7 +10,7 @@ require (
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/garyburd/redigo v1.6.3
 	github.com/go-zookeeper/zk v1.0.2
-	github.com/hashicorp/consul/api v1.13.0
+	github.com/hashicorp/consul/api v1.14.0
 	github.com/hashicorp/vault/api v1.7.2
 	github.com/kelseyhightower/memkv v0.1.1
 	github.com/sirupsen/logrus v1.8.1
@@ -34,7 +34,6 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/google/btree v1.0.0 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -53,7 +52,6 @@ require (
 	github.com/hashicorp/go-version v1.2.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/memberlist v0.3.1 // indirect
 	github.com/hashicorp/serf v0.9.7 // indirect
 	github.com/hashicorp/vault/sdk v0.5.1 // indirect
 	github.com/hashicorp/yamux v0.0.0-20210826001029-26ff87cf9493 // indirect

@@ -3,7 +3,7 @@ module github.com/haad/confd
 go 1.18
 
 require (
-	github.com/BurntSushi/toml v1.2.0
+	github.com/BurntSushi/toml v1.2.1
 	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/aws/aws-sdk-go v1.44.157
 	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3

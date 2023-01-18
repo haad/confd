@@ -24,3 +24,6 @@ timeout 30 sh -c 'until nc -z $0 $1; do sleep 1; done' localhost ${PORT}
 ./bin/vault secrets enable -path key kv
 ./bin/vault secrets enable -path upstream kv
 ./bin/vault secrets enable -path nested kv
+./bin/vault secrets enable -path secret_v1 kv
+./bin/vault secrets enable -version 2 -path secret_v2 kv
+./bin/vault secrets enable -version 2 -path kv-v2 kv

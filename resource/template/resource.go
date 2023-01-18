@@ -266,12 +266,12 @@ func (t *TemplateResource) createStageFile() error {
 		}
 		tmplPongo, err := set.FromFile(t.Src)
 		if err != nil {
-			return fmt.Errorf("template from file failed", err)
+			return fmt.Errorf("template from file failed %s", err)
 		}
 		if err = tmplPongo.ExecuteWriter(t.funcMap, temp); err != nil {
 			temp.Close()
 			os.Remove(temp.Name())
-			return fmt.Errorf("template execution failed", err)
+			return fmt.Errorf("template execution failed %s", err)
 		}
 	case "golang":
 		tmpl, err := template.New(filepath.Base(t.Src)).Funcs(t.funcMap).ParseFiles(t.Src)

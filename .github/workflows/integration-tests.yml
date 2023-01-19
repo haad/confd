@@ -124,6 +124,20 @@ jobs:
         env:
           VAULT_ADDR: http://127.0.0.1:8200
 
+      - name: Test Vault V1 with prefix 1
+        run: |
+          integration/vault/v1/test-prefix-1.sh
+          integration/expect/check-prefix.sh
+        env:
+          VAULT_ADDR: http://127.0.0.1:8200
+
+      - name: Test Vault V1 with prefix 2
+        run: |
+          integration/vault/v1/test-prefix-2.sh
+          integration/expect/check-prefix.sh
+        env:
+          VAULT_ADDR: http://127.0.0.1:8200
+
       - name: Test Vault Path
         run: |
           integration/vault/v1/test-vaultpath.sh
@@ -144,6 +158,18 @@ jobs:
           integration/expect/check.sh
         env:
           VAULT_ADDR: http://127.0.0.1:8200
+
+      - name: Test Vault V2 prefix 1
+        run: |
+          integration/vault/v2/test-prefix-1.sh
+          integration/expect/check-prefix.sh
+        env:
+          VAULT_ADDR: http://127.0.0.1:8200
+
+      - name: Test Vault V2 prefix 2
+        run: |
+          integration/vault/v2/test-prefix-2.sh
+          integration/expect/check-prefix.sh
 
       - name: Install Zookeeper
         run: |

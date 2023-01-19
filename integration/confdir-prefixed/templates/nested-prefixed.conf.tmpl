@@ -1,0 +1,9 @@
+{{- if getenv "ENV_VARS_SECRET" -}}
+{{- range gets ( printf "/%s/*" (getenv "ENV_VARS_SECRET") ) }}
+{{ base .Key }}={{ .Value }}
+{{- end }}
+{{ else }}
+{{ range $c := ls "/" -}}
+{{ $c }}={{ getv ( printf "/%s" $c ) }}
+{{ end -}}
+{{ end -}}

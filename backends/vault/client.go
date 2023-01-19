@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"path"
+	"strings"
 
 	"github.com/haad/confd/log"
 	vaultapi "github.com/hashicorp/vault/api"
@@ -192,9 +193,16 @@ func (c *Client) GetValues(keys []string) (map[string]string, error) {
 			continue
 		}
 
-		// if the key has only one string value
-		// treat it as a string and not a map of values
-		if val, ok := IsKV(resp.Data); ok {
+		// check for KV V2 secrets
+		if m, ok := resp.Data["metadata"].(map[string]interface{}); ok {
+			kv_data, data_ok := resp.Data["data"].(map[string]interface{})
+			_, version_ok := m["version"].(json.Number)
+			if version_ok && data_ok {
+				js, _ := json.Marshal(kv_data)
+				vars[key] = string(js)
+				Flatten(key, kv_data, vars)
+			}
+		} else if val, ok := IsKV(resp.Data); ok {
 			vars[key] = val
 		} else {
 			// save the json encoded response
@@ -228,6 +236,10 @@ func Flatten(key string, value interface{}, vars map[string]string) {
 		vars[key] = value.(string)
 	case map[string]interface{}:
 		inner := value.(map[string]interface{})
+		if val, ok := inner["value"]; ok && len(inner) == 1 {
+			vars[key] = val.(string)
+			return
+		}
 		for innerKey, innerValue := range inner {
 			innerKey = path.Join(key, "/", innerKey)
 			Flatten(innerKey, innerValue, vars)
@@ -254,8 +266,12 @@ func walkTree(c *Client, key string, branches map[string]bool) error {
 	resp, err := c.client.Logical().List(key)
 
 	if err != nil {
-		log.Debug("there was an error extracting %s", key)
-		return err
+		log.Debug("there was an error extracting %s, will try v2 format", key)
+		resp, err = c.client.Logical().List(strings.Replace(key, "/data/", "/metadata/", 1))
+		if err != nil {
+			log.Debug("v1 and v2 failed extracting %s %+v", key, err)
+			return err
+		}
 	}
 	if resp == nil || resp.Data == nil || resp.Data["keys"] == nil {
 		return nil

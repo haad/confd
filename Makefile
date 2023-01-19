@@ -7,6 +7,11 @@ build:
 	@mkdir -p bin
 	@go build -ldflags "-X main.GitSHA=${GIT_SHA}" -o bin/confd .
 
+build-static:
+	@echo "Building static confd..."
+	@mkdir -p bin
+	@CGO_ENABLED=0 go build -ldflags "-extldflags=-static -X main.GitSHA=${GIT_SHA}" -o bin/confd .
+
 install:
 	@echo "Installing confd..."
 	@install -c bin/confd /usr/local/bin/confd

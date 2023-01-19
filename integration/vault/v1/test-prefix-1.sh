@@ -6,16 +6,16 @@ export HOSTNAME="localhost"
 export VAULT_ADDR="http://127.0.0.1:8200/"
 export ROOT_TOKEN="$(vault read -field id auth/token/lookup-self)"
 
-export PREFIX1="secret_v1/platform/nested-prefixed-1/project/"
+export PREFIX="secret_v1/platform/nested-prefixed-1/project/"
 set -e
 
-vault write /${PREFIX1}FIRST_KEY value=FIRST_VALUE
-vault write /${PREFIX1}ANOTHER_KEY value=ANOTHER_VALUE
+vault write /${PREFIX}FIRST_KEY value=FIRST_VALUE
+vault write /${PREFIX}ANOTHER_KEY value=ANOTHER_VALUE
 
 # Run confd with prefix
 confd --onetime --log-level debug \
       --confdir ./integration/confdir-prefixed \
-      --prefix /${PREFIX1} \
+      --prefix /${PREFIX} \
       --backend vault \
       --auth-type token \
       --auth-token $ROOT_TOKEN \

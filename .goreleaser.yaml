@@ -16,33 +16,33 @@ builds:
       - amd64
       - arm64
 
-dockers:
-  - dockerfile: Dockerfile
-#    use: buildx
-    goos: linux
-    goarch: amd64
-    image_templates:
-      - ghcr.io/haad/{{ .ProjectName }}:{{ .Tag }}-amd64
-    build_flag_templates:
-      - --platform=linux/amd64
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-  - dockerfile: Dockerfile
-#    use: buildx
-    goos: linux
-    goarch: arm64
-    image_templates:
-      - ghcr.io/haad/{{ .ProjectName }}:{{ .Tag }}-arm64v8
-    build_flag_templates:
-      - --platform=linux/arm64/v8
-      - "--pull"
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
+#dockers:
+#  - dockerfile: Dockerfile
+##    use: buildx
+#    goos: linux
+#    goarch: amd64
+#    image_templates:
+#      - ghcr.io/haad/{{ .ProjectName }}:{{ .Tag }}-amd64
+#    build_flag_templates:
+#      - --platform=linux/amd64
+#      - "--pull"
+#      - "--label=org.opencontainers.image.created={{.Date}}"
+#      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+#      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+#      - "--label=org.opencontainers.image.version={{.Version}}"
+#  - dockerfile: Dockerfile
+##    use: buildx
+#    goos: linux
+#    goarch: arm64
+#    image_templates:
+#      - ghcr.io/haad/{{ .ProjectName }}:{{ .Tag }}-arm64v8
+#    build_flag_templates:
+#      - --platform=linux/arm64/v8
+#      - "--pull"
+#      - "--label=org.opencontainers.image.created={{.Date}}"
+#      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+#      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+#      - "--label=org.opencontainers.image.version={{.Version}}"
 
 # docker_manifests:
 #   - name_template: ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}

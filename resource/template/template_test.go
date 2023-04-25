@@ -119,7 +119,7 @@ type templateTest struct {
 var templateTests = []templateTest{
 
 	templateTest{
-		desc: "base, get test",
+		desc: "base, getkv test",
 		toml: `
 [template]
 src = "test.conf.tmpl"
@@ -129,7 +129,7 @@ keys = [
 ]
 `,
 		tmpl: `
-{{with get "/test/key"}}
+{{with getkv "/test/key"}}
 key: {{base .Key}}
 val: {{.Value}}
 {{end}}

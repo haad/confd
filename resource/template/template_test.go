@@ -401,7 +401,7 @@ keys = [
 ]
 `,
 		tmpl: `
-{{$data := split (getv "/test/data") ":"}}
+{{$data := splitList ":" (getv "/test/data") }}
 f: {{index $data 0}}
 br: {{index $data 1}}
 bz: {{index $data 2}}
@@ -765,7 +765,7 @@ dest = "./tmp/test.conf"
 {{ seq 1 3 }}
 `,
 		expected: `
-[1 2 3]
+1 2 3
 `,
 		updateStore: func(tr *TemplateResource) {},
 	}, templateTest{
@@ -782,7 +782,7 @@ keys = [
 {{ seq 1 (atoi (getv "/test/count")) }}
 `,
 		expected: `
-[1 2 3]
+1 2 3
 `,
 		updateStore: func(tr *TemplateResource) {
 			tr.store.Set("/test/count", "3")
@@ -798,7 +798,7 @@ keys = [
 ]
 `,
 		tmpl: `
-isContainGolang = {{ contains "golang, java, python" (getv "/test/value") }}
+isContainGolang = {{ contains (getv "/test/value") "golang, java, python" }}
 `,
 		expected: `
 isContainGolang = true

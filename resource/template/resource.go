@@ -96,8 +96,8 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.funcMap = newFuncMap()
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
-	addFuncs(tr.funcMap, tr.store.FuncMap)
 	addFuncs(tr.funcMap, sprig.TxtFuncMap())
+	addFuncs(tr.funcMap, tr.store.FuncMap)
 
 
 	if config.Prefix != "" {
@@ -276,7 +276,7 @@ func (t *TemplateResource) createStageFile() error {
 	case "golang":
 		tmpl, err := template.New(filepath.Base(t.Src)).Funcs(t.funcMap).ParseFiles(t.Src)
 		if err != nil {
-			return fmt.Errorf("Unable to process template %s, %s", t.Src, err)
+			return fmt.Errorf("unable to process template %s, %s", t.Src, err)
 		}
 
 		if err = tmpl.Execute(temp, nil); err != nil {

@@ -8,11 +8,11 @@ cd $(dirname $0)/../
 export DEBIAN_FRONTEND=noninteractive
 export PATH=$(pwd)/bin:${PATH}
 
-export CONSUL_VERSION="1.11.2"
-export ETCD_VERSION="3.4.3"
-export VAULT_VERSION="1.9.3"
+export CONSUL_VERSION="1.15.2"
+export ETCD_VERSION="3.5.0"
+export VAULT_VERSION="1.13.1"
 export DYNAMODB_VERSION="latest"
-export ZOOKEEPER_VERSION="3.6.3"
+export ZOOKEEPER_VERSION="3.8.1"
 export RANCHER_VERSION="0.6.0"
 
 #export INTEGRATION_TESTS=("file" "redis" "dynamodb" "zookeeper" "env" "consul" "etcd" ) # "vault")

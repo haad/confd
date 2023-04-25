@@ -10,7 +10,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/haad/confd/log"
 	util "github.com/haad/confd/util"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // Client provides a shell for the yaml client

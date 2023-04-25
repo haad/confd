@@ -29,3 +29,6 @@ dump.rdb
 dist/
 
 vendor/
+
+.DS_Store
+.tool-versions

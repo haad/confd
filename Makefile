@@ -26,7 +26,7 @@ test:
 integration: modtidy build test
 	@echo "Running integration tests..."
 	#bash integration/run.sh
-	@docker run -it --rm -v $(pwd):/go/src/github.com/haad/confd golang:1.18.2 /go/src/github.com/haad/confd/integration/run.sh
+	@docker run -it --rm -v $(pwd):/go/src/github.com/haad/confd golang:1.20.3 /go/src/github.com/haad/confd/integration/run.sh
 
 modtidy:
 	@go mod tidy

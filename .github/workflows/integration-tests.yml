@@ -30,6 +30,7 @@ jobs:
         run: |
           make build
           sudo make install
+          go test `go list ./... | grep -v vendor/`
 
       - name: Install Dependencies
         run: |

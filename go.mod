@@ -9,15 +9,16 @@ require (
 	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/garyburd/redigo v1.6.4
+	github.com/ghodss/yaml v1.0.0
 	github.com/go-zookeeper/zk v1.0.3
 	github.com/hashicorp/consul/api v1.18.0
 	github.com/hashicorp/vault/api v1.9.0
 	github.com/kelseyhightower/memkv v0.1.1
+	github.com/nqd/flat v0.2.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77
 	go.etcd.io/etcd/client/v3 v3.5.8
 	golang.org/x/net v0.9.0
-	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
 )
@@ -48,7 +49,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/serf v0.10.1 // indirect
 	github.com/huandu/xstrings v1.3.3 // indirect
-	github.com/imdario/mergo v0.3.11 // indirect
+	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
@@ -72,4 +73,5 @@ require (
 	google.golang.org/grpc v1.41.0 // indirect
 	google.golang.org/protobuf v1.26.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

@@ -1,16 +1,17 @@
 package file
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"path"
 	"strconv"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/ghodss/yaml"
 	"github.com/haad/confd/log"
 	util "github.com/haad/confd/util"
-	"gopkg.in/yaml.v3"
+	"github.com/nqd/flat"
 )
 
 // Client provides a shell for the yaml client
@@ -29,20 +30,38 @@ func NewFileClient(filepath []string, filter string) (*Client, error) {
 }
 
 func readFile(path string, vars map[string]string) error {
-	yamlMap := make(map[interface{}]interface{})
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
 	}
-
-	err = yaml.Unmarshal(data, &yamlMap)
+	jsonDoc, err := yaml.YAMLToJSON(data)
 	if err != nil {
+		fmt.Printf("Error converting YAML to JSON: %s\n", err.Error())
 		return err
 	}
-
-	err = nodeWalk(yamlMap, "/", vars)
+	var yamlMap map[string]interface{}
+	err = json.Unmarshal(jsonDoc, &yamlMap)
 	if err != nil {
+		fmt.Printf("Error unmarshaling JSON: %s\n", err.Error())
 		return err
+	}
+	out, err := flat.Flatten(yamlMap, &flat.Options{Delimiter: "/"})
+	if err != nil {
+		fmt.Printf("Error flatten yaml: %s\n", err.Error())
+		return err
+	}
+	for key, v := range out {
+		fixed_key := "/" + key
+		switch v := v.(type) {
+		case string:
+			vars[fixed_key] = v
+		case int:
+			vars[fixed_key] = strconv.Itoa(v)
+		case bool:
+			vars[fixed_key] = strconv.FormatBool(v)
+		case float64:
+			vars[fixed_key] = strconv.FormatFloat(v, 'f', -1, 64)
+		}
 	}
 	return nil
 }
@@ -64,9 +83,8 @@ func (c *Client) GetValues(keys []string) (map[string]string, error) {
 			return nil, err
 		}
 	}
-
 VarsLoop:
-	for k  := range vars {
+	for k := range vars {
 		for _, key := range keys {
 			if strings.HasPrefix(k, key) {
 				continue VarsLoop
@@ -76,31 +94,6 @@ VarsLoop:
 	}
 	log.Debug(fmt.Sprintf("Key Map: %#v", vars))
 	return vars, nil
-}
-
-// nodeWalk recursively descends nodes, updating vars.
-func nodeWalk(node interface{}, key string, vars map[string]string) error {
-	switch node.(type) {
-	case []interface{}:
-		for i, j := range node.([]interface{}) {
-			key := path.Join(key, strconv.Itoa(i))
-			nodeWalk(j, key, vars)
-		}
-	case map[interface{}]interface{}:
-		for k, v := range node.(map[interface{}]interface{}) {
-			key := path.Join(key, k.(string))
-			nodeWalk(v, key, vars)
-		}
-	case string:
-		vars[key] = node.(string)
-	case int:
-		vars[key] = strconv.Itoa(node.(int))
-	case bool:
-		vars[key] = strconv.FormatBool(node.(bool))
-	case float64:
-		vars[key] = strconv.FormatFloat(node.(float64), 'f', -1, 64)
-	}
-	return nil
 }
 
 func (c *Client) watchChanges(watcher *fsnotify.Watcher, stopChan chan bool) ResultError {

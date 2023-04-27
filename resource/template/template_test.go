@@ -119,7 +119,7 @@ type templateTest struct {
 var templateTests = []templateTest{
 
 	templateTest{
-		desc: "base, get test",
+		desc: "base, getkv test",
 		toml: `
 [template]
 src = "test.conf.tmpl"
@@ -129,7 +129,7 @@ keys = [
 ]
 `,
 		tmpl: `
-{{with get "/test/key"}}
+{{with getkv "/test/key"}}
 key: {{base .Key}}
 val: {{.Value}}
 {{end}}
@@ -144,7 +144,25 @@ val: abc
 			tr.store.Set("/test/key", "abc")
 		},
 	},
-
+	templateTest{
+		desc: "base, get ( sprig ) test",
+		toml: `
+[template]
+src = "test.conf.tmpl"
+dest = "./tmp/test.conf"
+keys = [
+    "",
+]
+`,
+		tmpl: `
+{{- $myDict := dict "key1" "value1" "key2" "value2" }}
+{{ get $myDict "key1" }}
+`,
+		expected: `
+value1
+`,
+		updateStore: func(tr *TemplateResource) {},
+	},
 	templateTest{
 		desc: "base, cget test",
 		toml: `

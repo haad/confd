@@ -16,13 +16,13 @@ import (
 	"text/template"
 
 	"github.com/BurntSushi/toml"
+	"github.com/Masterminds/sprig/v3"
 	"github.com/flosch/pongo2"
 	"github.com/haad/confd/backends"
 	"github.com/haad/confd/log"
 	util "github.com/haad/confd/util"
 	"github.com/kelseyhightower/memkv"
 	"github.com/xordataexchange/crypt/encoding/secconf"
-	"github.com/Masterminds/sprig/v3"
 )
 
 type Config struct {
@@ -49,10 +49,10 @@ type TemplateResource struct {
 	Dest          string
 	FileMode      os.FileMode
 	Gid           int
-	Group 		  string
+	Group         string
 	Keys          []string
 	Mode          string
-	Owner 		  string
+	Owner         string
 	Prefix        string
 	ReloadCmd     string `toml:"reload_cmd"`
 	Src           string
@@ -96,9 +96,15 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 	tr.funcMap = newFuncMap()
 	tr.store = memkv.New()
 	tr.syncOnly = config.SyncOnly
-	addFuncs(tr.funcMap, sprig.TxtFuncMap())
 	addFuncs(tr.funcMap, tr.store.FuncMap)
-
+	addFuncs(tr.funcMap, map[string]interface{}{
+		"getkv": tr.store.FuncMap["get"],
+	})
+	if len(config.PGPPrivateKey) > 0 {
+		tr.PGPPrivateKey = config.PGPPrivateKey
+		addCryptFuncs(&tr)
+	}
+	addFuncs(tr.funcMap, sprig.TxtFuncMap())
 
 	if config.Prefix != "" {
 		tr.Prefix = config.Prefix
@@ -106,11 +112,6 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 
 	if !strings.HasPrefix(tr.Prefix, "/") {
 		tr.Prefix = "/" + tr.Prefix
-	}
-
-	if len(config.PGPPrivateKey) > 0 {
-		tr.PGPPrivateKey = config.PGPPrivateKey
-		addCryptFuncs(&tr)
 	}
 
 	if tr.Src == "" {
@@ -162,7 +163,7 @@ func NewTemplateResource(path string, config Config) (*TemplateResource, error) 
 func addCryptFuncs(tr *TemplateResource) {
 	addFuncs(tr.funcMap, map[string]interface{}{
 		"cget": func(key string) (memkv.KVPair, error) {
-			kv, err := tr.funcMap["get"].(func(string) (memkv.KVPair, error))(key)
+			kv, err := tr.funcMap["getkv"].(func(string) (memkv.KVPair, error))(key)
 			if err == nil {
 				var b []byte
 				b, err = secconf.Decode([]byte(kv.Value), bytes.NewBuffer(tr.PGPPrivateKey))

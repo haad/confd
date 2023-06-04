@@ -11,7 +11,7 @@ require (
 	github.com/garyburd/redigo v1.6.4
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-zookeeper/zk v1.0.3
-	github.com/hashicorp/consul/api v1.18.0
+	github.com/hashicorp/consul/api v1.21.0
 	github.com/hashicorp/vault/api v1.9.0
 	github.com/kelseyhightower/memkv v0.1.1
 	github.com/nqd/flat v0.2.0

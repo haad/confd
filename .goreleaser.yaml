@@ -55,12 +55,13 @@ builds:
 #       - ghcr.io/haad/{{ .ProjectName }}:{{ .Version }}-arm64v8
 
 archives:
-  - replacements:
-      darwin: darwin
-      linux: linux
-      windows: windows
-      386: i386
-      amd64: amd64
+  - name_template: >-
+      {{- .ProjectName }}_
+      {{- .Version }}_
+      {{- tolower .Os }}_
+      {{- if eq .Arch "386" }}i386
+      {{- else }}{{ tolower .Arch }}{{ end }}
+      {{- if .Arm }}v{{ tolower .Arm }}{{ end -}}
 checksum:
   name_template: 'checksums.txt'
   algorithm: sha256

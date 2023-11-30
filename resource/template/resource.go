@@ -58,6 +58,7 @@ type TemplateResource struct {
 	Src           string
 	Mkdirs        bool   `toml:"make_directories"`
 	Lang          string `toml:"lang"`
+	OnEmptyError  bool   `toml:"on_empty_error"`
 	StageFile     *os.File
 	Uid           int
 	funcMap       map[string]interface{}
@@ -224,7 +225,9 @@ func (t *TemplateResource) setVars() error {
 		return err
 	}
 	log.Debug("Got the following map from store: %v", result)
-
+	if t.OnEmptyError && len(result) == 0 {
+		log.Fatal("on empty error enabled, empty result returned, exiting")
+	}
 	t.store.Purge()
 
 	for k, v := range result {
